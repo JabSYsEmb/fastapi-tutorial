@@ -1,0 +1,23 @@
+version: '3'
+
+
+networks:
+  web_server: 
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - web_server
+    ports:
+      80:80
+
+  backend:
+    build:
+      context: ./backend
+    networks:
+      - web_server
+    ports:
+      8080:8080
+
