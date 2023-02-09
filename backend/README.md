@@ -4,7 +4,8 @@
 $ python -m venv name_for_the_virtual_environment
 $ source {name_for_the_virtual_environment}/bin/activate # source the binaries of the virtual environment
 $ pip install -r requirement.txt
-$ ./runner.sh (you can send parameters here)
+$ ./runner.sh (you can send parameters here) 
+$ deactivate # for deactivate the virtual environment 
 ```
 
 ``` bash
