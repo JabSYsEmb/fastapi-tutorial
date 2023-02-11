@@ -1,4 +1,4 @@
-"""Module providing utilities functions to deal with JSON files"""
+"""Module providing REST API as backend"""
 import json
 
 from enum import Enum
