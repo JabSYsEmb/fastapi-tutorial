@@ -1,5 +1,13 @@
+import json
+
+from enum import Enum
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
+
 
 origins = [
     "http://localhost.tiangolo.com",
@@ -7,11 +15,12 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://localhost:8080",
-    "frontend:3000",
 ]
 
 app = FastAPI()
 
+
+# CORS enabled for some URL
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -20,19 +29,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/{name}")
-async def root(name) :
-    return {"message": "Hello - {}!".format(name)}
+# predefined paths using Enum
+class ModelName(str, Enum):
+    alexnet = "alexnet"
+    resnet = "resnet"
+    lenet = "lenet"
 
-@app.get("/items/{items}")
-async def root(items: int) :
-    return {"message": "Hello - {}!".format(items)}
+@app.get("/api/v1/models/{model_name}")
+async def root(model_name: ModelName) :
+    if model_name is ModelName.alexnet:
+        return {"model_name": model_name, "message": "has 20k parameters to be tuned"}
+    if model_name.value == ModelName.resnet.value:
+        return {"model_name": model_name, "message": "has 22k parameters to be tuned"}
+    return {"model_name": model_name, "message" : "has 2k parameters to be tuned"}
 
-@app.get("/person/api")
-async def person():
-    return {"employee_number" : "2", "accountant": "Mustafa Faruk"}
+fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
-@app.get("/person")
-async def person():
-    return {"employee": "Ahmed Murat", "salary": 2000, "position": "DevOps"}
 
+@app.get("/api/v1/db/")
+async def root(start: int = 0, length: int = 10):
+    return fake_items_db[ start: start+length ]
+
+@app.get("/api/v1/files/{path_to_json_file:path}")
+async def root(path_to_json_file: str):
+    content_path = Path.cwd().resolve().joinpath(path_to_json_file);
+    return {"file": path_to_json_file, "content" : json.loads(content_path.read_text())}
