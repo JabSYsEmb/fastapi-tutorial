@@ -1,23 +1,29 @@
 version: '3'
 
+volumes:
+  frontend:
 
 networks:
   web_server: 
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-    networks:
-      - web_server
-    ports:
-      80:80
-
   backend:
     build:
       context: ./backend
+    volumes:
+      - ./backend:/home/backend
     networks:
       - web_server
     ports:
-      8080:8080
+      - 127.0.0.1:8000:8000
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - frontend:/usr/src/app/node_modules
+      - ./frontend:/usr/src/app
+    networks:
+      - web_server
+    ports:
+      - 3000:3000
 
