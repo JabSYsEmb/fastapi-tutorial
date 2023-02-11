@@ -7,6 +7,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://localhost:8080",
+    "frontend:3000",
 ]
 
 app = FastAPI()
@@ -21,15 +22,15 @@ app.add_middleware(
 
 @app.get("/{name}")
 async def root(name) :
-    return {"message": "Hello {}!".format(name)}
+    return {"message": "Hello - {}!".format(name)}
 
 @app.get("/items/{items}")
 async def root(items: int) :
-    return {"message": "Hello {}!".format(items)}
+    return {"message": "Hello - {}!".format(items)}
 
 @app.get("/person/api")
 async def person():
-    return {"employee_number" : "3", "accountant": "Mustafa Faruk"}
+    return {"employee_number" : "2", "accountant": "Mustafa Faruk"}
 
 @app.get("/person")
 async def person():

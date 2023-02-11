@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-uvicorn main:app --reload "$@"
+uvicorn main:app --port 8000 --host 0.0.0.0 --reload "$@"
