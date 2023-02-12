@@ -101,3 +101,4 @@ async def get_json_file_by_path(path_to_json_file: str):
     "file": path_to_json_file,
     "content" : json.loads(content_path.read_text(encoding="utf-8"))
   }
+# line by koro
