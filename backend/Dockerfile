@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt && \
 
 EXPOSE 8000
 
-ENTRYPOINT ["./runner.sh"]
+ENTRYPOINT ["uvicorn", "main:app", "--reload"]
