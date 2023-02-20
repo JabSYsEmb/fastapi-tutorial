@@ -4,18 +4,29 @@ volumes:
   frontend:
 
 networks:
-  web_server: 
+  fullnet: 
 
 services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - fullnet
+    ports:
+      - 80:80
+    container_name: ngx
+
   backend:
     build:
       context: ./backend
     volumes:
       - ./backend:/home/backend
     networks:
-      - web_server
+      - fullnet
     ports:
-      - 8000:8000
+      - 8000
+    container_name: backend
     command: --host 0.0.0.0 --port 8000
 
   frontend:
@@ -24,7 +35,7 @@ services:
       - frontend:/usr/src/app/node_modules
       - ./frontend:/usr/src/app
     networks:
-      - web_server
+      - fullnet
     ports:
-      - 3000:3000
-
+      - 3000
+    container_name: frontend

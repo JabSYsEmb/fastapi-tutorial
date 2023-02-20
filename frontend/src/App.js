@@ -1,15 +1,14 @@
+import { useEffect } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 function App() {
-  const [response, setResponse] = useState({});
   useEffect(() => {
     axios
-      .get("http://localhost:8000/312343")
-      .then((item) => setResponse(item.data));
+      .get("http://backend.colasloth.com/api/v1/items")
+      .then((res) => res.data)
+      .then((data) => console.log(data));
   }, []);
-
-  return <h1>{response["message"]}</h1>;
+  return <h1>Gello</h1>;
 }
 
 export default App;
