@@ -1,10 +1,16 @@
-FROM node:bullseye-slim
+FROM node:bullseye-slim as builder
 
-WORKDIR /usr/src/app
+WORKDIR /tmp/node/
 
 COPY package*.json .
 
-RUN npm install
+RUN npm install -f
+
+FROM node:lts-alpine3.17 
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /tmp/node/node_modules /usr/src/app/node_modules
 
 EXPOSE 3000
 

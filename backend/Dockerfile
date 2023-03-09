@@ -4,8 +4,11 @@ WORKDIR /home/backend/
 
 COPY . .
 
-RUN pip install -r requirements.txt && \
-    chmod +x runner.sh
+RUN pip install -r requirements.txt
+
+RUN adduser fastapi-user --disabled-password --ingroup wheel
+
+USER fastapi-user
 
 EXPOSE 8000
 
